@@ -1,8 +1,7 @@
 <?php
-
 function sanitizePath($string)
 {
-    return trim(str_replace(['/', ':', '\\', '>', '<', '?', '|', '*'], '', $string));
+    return trim(str_replace(['/', ':', '\\', '>', '<', '?', '|', '*', '"', '...', '..'], '', $string), " \t\n\r\0\x0B.");
 }
 
 function playlists()
@@ -69,6 +68,7 @@ function downloadYoutube(string $youtube_id, string $path, array $track)
     $dir = str_replace(basename($path), '', $path);
     if (!file_exists($dir) && !mkdir($dir, 0644, true)) {
         echo 'Could not create folder '.$dir.'.'.PHP_EOL;
+		var_dump($track, $dir, $path);
     } else {
         echo 'Downloading: '.$path.PHP_EOL;
         exec(
