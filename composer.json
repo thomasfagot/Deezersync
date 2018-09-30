@@ -1,0 +1,7 @@
+{
+    "require": {
+        "norkunas/youtube-dl-php": "^1.0",
+        "james-heinrich/getid3": "^1.9",
+        "symfony/dotenv": "^4.1"
+    }
+}
