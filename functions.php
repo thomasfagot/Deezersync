@@ -68,7 +68,6 @@ function downloadYoutube(string $youtube_id, string $path, array $track)
     $dir = str_replace(basename($path), '', $path);
     if (!file_exists($dir) && !mkdir($dir, 0644, true)) {
         echo 'Could not create folder '.$dir.'.'.PHP_EOL;
-		var_dump($track, $dir, $path);
     } else {
         echo 'Downloading: '.$path.PHP_EOL;
         exec(
@@ -96,12 +95,12 @@ function setMetadata(string $path, array $track)
         $getID3->setOption(['encoding' => 'UTF-8']);
         getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'write.php', __FILE__, true);
         $tagwriter = new getid3_writetags;
-        $tagwriter->filename = $path;
         $tagwriter->tagformats = ['id3v2.3'];
         $tagwriter->overwrite_tags = true;
         $tagwriter->tag_encoding = 'UTF-8';
     }
 
+    $tagwriter->filename = $path;
     $tagwriter->tag_data = [
         'title' => [$track['title'] ?? ''],
         'album' => [$track['album']['title'] ?? ''],
@@ -110,6 +109,6 @@ function setMetadata(string $path, array $track)
     ];
 
     if (!$tagwriter->WriteTags()) {
-        echo 'Failed writing tags.'.PHP_EOL;
+        echo 'Failed writing tags to "'.$path.'".'.PHP_EOL;
     }
 }
